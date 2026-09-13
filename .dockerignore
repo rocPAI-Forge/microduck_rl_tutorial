@@ -1,0 +1,11 @@
+.git
+.gitignore
+.ipynb_checkpoints
+runs
+logs
+outputs
+wandb
+__pycache__
+.venv
+*.md
+!README.md

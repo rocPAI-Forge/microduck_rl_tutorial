@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+.ruff_cache/
+.pytest_cache/
+.DS_Store
+
+# Training outputs (keep notebook repo light)
+runs/
+logs/
+outputs/
+wandb/
+*.log
+
+# Local env overrides
+.env
+.env.*

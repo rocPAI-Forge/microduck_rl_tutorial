@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_lab}"
+export MICRODUCK_ROOT="${MICRODUCK_ROOT:-/opt/microduck_rl_unilab}"
+export UNILAB_EXTRA_REGISTRY_PACKAGES="${UNILAB_EXTRA_REGISTRY_PACKAGES:-microduck_rl_unilab.tasks}"
+export MUJOCO_GL="${MUJOCO_GL:-osmesa}"
+export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-osmesa}"
+
+mkdir -p /workspace/runs
+cd "${LAB_ROOT}"
+
+if [[ "${1:-}" == "jupyter" || "${1:-}" == "lab" ]]; then
+  shift || true
+  exec jupyter lab \
+    --ip=0.0.0.0 \
+    --port="${JUPYTER_PORT:-8888}" \
+    --no-browser \
+    --allow-root \
+    --notebook-dir="${LAB_ROOT}/notebooks" \
+    "$@"
+fi
+
+if [[ "${1:-}" == "bash" ]]; then
+  exec bash "$@"
+fi
+
+exec "$@"
