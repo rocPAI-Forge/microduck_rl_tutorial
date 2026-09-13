@@ -43,7 +43,7 @@ RUN pip install --no-cache-dir \
     'unisim-core==1.0.0' \
     && pip install --no-cache-dir --no-deps -e /opt/microduck_rl_unilab
 
-WORKDIR /workspace/microduck_rl_lab
+WORKDIR /opt/microduck_rl_unilab
 COPY . /workspace/microduck_rl_lab
 RUN chmod +x /workspace/microduck_rl_lab/scripts/entrypoint.sh
 

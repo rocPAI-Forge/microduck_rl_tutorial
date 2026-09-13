@@ -49,6 +49,11 @@ Open the Jupyter URL printed in the terminal (token shown on first launch).
 
 Training artifacts are written to `./runs` on the host.
 
+The container working directory is `/opt/microduck_rl_unilab` because MicroDuck
+XML assets are resolved relative to that repo. Jupyter still opens
+`/workspace/microduck_rl_lab/notebooks`. The notebook helpers already `cd`
+into the task repo before calling `microduck-train`.
+
 ## What the notebook does
 
 | Block | Task owner | Goal |

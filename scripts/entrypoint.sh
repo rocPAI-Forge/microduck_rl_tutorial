@@ -8,7 +8,8 @@ export MUJOCO_GL="${MUJOCO_GL:-osmesa}"
 export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-osmesa}"
 
 mkdir -p /workspace/runs
-cd "${LAB_ROOT}"
+# XML assets are resolved relative to the task repo, not the notebook repo.
+cd "${MICRODUCK_ROOT}"
 
 if [[ "${1:-}" == "jupyter" || "${1:-}" == "lab" ]]; then
   shift || true
