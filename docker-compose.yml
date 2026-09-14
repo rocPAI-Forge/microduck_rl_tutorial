@@ -6,6 +6,7 @@ services:
       args:
         MICRODUCK_REPO: https://github.com/unilabsim/microduck_rl_unilab.git
         MICRODUCK_REF: main
+        MICRODUCK_EXPECTED_SHA: ${MICRODUCK_EXPECTED_SHA:-8530dbc0ea0b22718c2266c3cb89f2077fa37912}
     image: microduck-rl-lab:rocm714-py312
     devices:
       - /dev/kfd
@@ -15,14 +16,16 @@ services:
     ipc: host
     shm_size: 8gb
     ports:
-      - "8888:8888"
+      - "${LAB_HOST_PORT:-8888}:8888"
     volumes:
       - ./runs:/workspace/runs
       - ./notebooks:/workspace/microduck_rl_lab/notebooks
       - ./scripts:/workspace/microduck_rl_lab/scripts
+      - ./examples:/workspace/microduck_rl_lab/examples
     environment:
       HIP_VISIBLE_DEVICES: ${HIP_VISIBLE_DEVICES:-0}
       JUPYTER_PORT: 8888
+      LAB_QUICK_MODE: ${LAB_QUICK_MODE:-0}
     security_opt:
       - seccomp:unconfined
     cap_add:

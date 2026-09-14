@@ -8,6 +8,17 @@ __pycache__/
 
 # Training outputs (keep notebook repo light)
 runs/
+runs/logs/
+notebooks/_eval_*.mp4
+notebooks/_phase*.mp4
+!examples/velocity_flat_demo/model_499.pt
+!examples/velocity_flat_demo/run_summary.json
+!examples/velocity_flat_demo/run_config.json
+!examples/velocity_flat_demo/README.md
+examples/velocity_flat_demo/play_video.mp4
+examples/velocity_flat_demo/policy.onnx
+examples/velocity_flat_demo/policy.onnx.data
+examples/velocity_flat_demo/policy.pt
 logs/
 outputs/
 wandb/
