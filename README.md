@@ -56,4 +56,4 @@ AMD Instinct MI210; the model is not tied to MI210 hardware.
 ## Related
 
 - [microduck_rl_unilab](https://github.com/rocPAI-Forge/microduck_rl_unilab)
-- [UniLab](https://github.com/unilabsim/UniLab)
+- [UniLab](https://github.com/Motphys/UniLab)
