@@ -21,14 +21,14 @@ the staged fine-tuning recipe.
 ```bash
 cd /opt/microduck_rl_unilab
 microduck-eval --algo ppo --task microduck_velocity_flat --sim mujoco \
-  --load-run /workspace/microduck_rl_lab/examples/velocity_flat_demo \
+  --load-run /workspace/microduck_rl_tutorial/examples/velocity_flat_demo \
   training.play_steps=200 training.log_root=/workspace/runs
 ```
 
 ## Re-run the six-direction gate
 
 ```bash
-python3 /workspace/microduck_rl_lab/scripts/evaluate_cardinal.py \
-  /workspace/microduck_rl_lab/examples/velocity_flat_demo/model_950.pt \
+python3 /workspace/microduck_rl_tutorial/scripts/evaluate_cardinal.py \
+  /workspace/microduck_rl_tutorial/examples/velocity_flat_demo/model_950.pt \
   --num-envs 32 --steps 500 --yaw-rate 0.8
 ```

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 MICRODUCK_ROOT="${MICRODUCK_ROOT:-/opt/microduck_rl_unilab}"
-LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_lab}"
+LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_tutorial}"
 LOG="${LAB_TRAIN_LOG:-/workspace/runs/logs/last_train.log}"
 LAB_LOG_EVERY="${LAB_LOG_EVERY:-10}"
 FILTER="${LAB_ROOT}/scripts/train_log_filter.py"

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 MICRODUCK_ROOT="${MICRODUCK_ROOT:-/opt/microduck_rl_unilab}"
-LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_lab}"
+LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_tutorial}"
 
 echo "=== MicroDuck RL Lab environment ==="
 echo "LAB_ROOT=${LAB_ROOT}"

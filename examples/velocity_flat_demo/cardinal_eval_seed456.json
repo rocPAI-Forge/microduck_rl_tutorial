@@ -1,5 +1,5 @@
 {
-  "checkpoint": "/workspace/microduck_rl_lab/examples/velocity_flat_demo/model_950.pt",
+  "checkpoint": "/workspace/microduck_rl_tutorial/examples/velocity_flat_demo/model_950.pt",
   "seed": 456,
   "num_envs": 32,
   "steps": 500,

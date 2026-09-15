@@ -2,7 +2,7 @@
 # Launch/stop one-robot MicroDuck policy inference in the browser VNC desktop.
 set -euo pipefail
 
-LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_lab}"
+LAB_ROOT="${LAB_ROOT:-/workspace/microduck_rl_tutorial}"
 MICRODUCK_ROOT="${MICRODUCK_ROOT:-/opt/microduck_rl_unilab}"
 RUN_ROOT="${LAB_LOG_ROOT:-/workspace/runs}"
 PID_FILE="${RUN_ROOT}/.microduck_teleop.pid"

@@ -30,7 +30,7 @@ spec:
         - name: lab
           image: microduck-rl-lab:rocm714-py312
           imagePullPolicy: IfNotPresent
-          command: ["/workspace/microduck_rl_lab/scripts/entrypoint.sh", "jupyter"]
+          command: ["/workspace/microduck_rl_tutorial/scripts/entrypoint.sh", "jupyter"]
           ports:
             - containerPort: 8888
               name: jupyter

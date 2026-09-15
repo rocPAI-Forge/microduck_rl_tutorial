@@ -1,4 +1,4 @@
-# microduck_rl_lab
+# microduck_rl_tutorial
 
 Beginner-friendly Jupyter lab for MicroDuck omnidirectional velocity RL on AMD ROCm.
 
@@ -55,5 +55,5 @@ AMD Instinct MI210; the model is not tied to MI210 hardware.
 
 ## Related
 
-- [microduck_rl_unilab](https://github.com/unilabsim/microduck_rl_unilab)
+- [microduck_rl_unilab](https://github.com/rocPAI-Forge/microduck_rl_unilab)
 - [UniLab](https://github.com/unilabsim/UniLab)
