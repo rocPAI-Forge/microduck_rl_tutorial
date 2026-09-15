@@ -1,0 +1,121 @@
+{
+  "checkpoint": "/workspace/microduck_rl_lab/examples/velocity_flat_demo/model_950.pt",
+  "seed": 456,
+  "num_envs": 32,
+  "steps": 500,
+  "control_frequency_hz": 50,
+  "policy_obs_mode": "actor",
+  "directions": {
+    "forward": {
+      "command": [
+        0.2,
+        0.0,
+        0.0
+      ],
+      "steps": 500,
+      "survival_rate": 1.0,
+      "fall_rate": 0.0,
+      "mean_lifetime_steps": 500.0,
+      "mean_component_velocity": 0.16233054041473224,
+      "mean_absolute_tracking_error": 0.045097530215773285,
+      "normalized_tracking_mae": 0.22548765107886642,
+      "sign_accuracy": 0.96875,
+      "mean_cross_axis_drift": 0.024310171835408255,
+      "score": 91.9608806006678,
+      "passes": true
+    },
+    "backward": {
+      "command": [
+        -0.2,
+        0.0,
+        0.0
+      ],
+      "steps": 500,
+      "survival_rate": 1.0,
+      "fall_rate": 0.0,
+      "mean_lifetime_steps": 500.0,
+      "mean_component_velocity": -0.19448834808434184,
+      "mean_absolute_tracking_error": 0.04337523978349935,
+      "normalized_tracking_mae": 0.21687619891749674,
+      "sign_accuracy": 0.96875,
+      "mean_cross_axis_drift": 0.03793276026938838,
+      "score": 91.26799434243668,
+      "passes": true
+    },
+    "left": {
+      "command": [
+        0.0,
+        0.2,
+        0.0
+      ],
+      "steps": 500,
+      "survival_rate": 0.9375,
+      "fall_rate": 0.0625,
+      "mean_lifetime_steps": 480.375,
+      "mean_component_velocity": 0.17352084810460597,
+      "mean_absolute_tracking_error": 0.038992756197186,
+      "normalized_tracking_mae": 0.19496378098592998,
+      "sign_accuracy": 0.96875,
+      "mean_cross_axis_drift": 0.02239059989253538,
+      "score": 90.3519488158494,
+      "passes": true
+    },
+    "right": {
+      "command": [
+        0.0,
+        -0.2,
+        0.0
+      ],
+      "steps": 500,
+      "survival_rate": 0.96875,
+      "fall_rate": 0.03125,
+      "mean_lifetime_steps": 492.125,
+      "mean_component_velocity": -0.17341716171574398,
+      "mean_absolute_tracking_error": 0.044500967523920194,
+      "normalized_tracking_mae": 0.22250483761960096,
+      "sign_accuracy": 0.90625,
+      "mean_cross_axis_drift": 0.025070272366760227,
+      "score": 89.17227756839262,
+      "passes": true
+    },
+    "yaw_left": {
+      "command": [
+        0.0,
+        0.0,
+        0.8
+      ],
+      "steps": 500,
+      "survival_rate": 1.0,
+      "fall_rate": 0.0,
+      "mean_lifetime_steps": 500.0,
+      "mean_component_velocity": 0.20709551702133466,
+      "mean_absolute_tracking_error": 0.8936691280604275,
+      "normalized_tracking_mae": 1.1170864100755344,
+      "sign_accuracy": 0.84375,
+      "mean_cross_axis_drift": 0.037215589912906424,
+      "score": 68.61271067247291,
+      "passes": false
+    },
+    "yaw_right": {
+      "command": [
+        0.0,
+        0.0,
+        -0.8
+      ],
+      "steps": 500,
+      "survival_rate": 1.0,
+      "fall_rate": 0.0,
+      "mean_lifetime_steps": 500.0,
+      "mean_component_velocity": -0.047773786591180395,
+      "mean_absolute_tracking_error": 1.0113525894476116,
+      "normalized_tracking_mae": 1.2641907368095144,
+      "sign_accuracy": 0.59375,
+      "mean_cross_axis_drift": 0.035937598164326214,
+      "score": 62.44791012237826,
+      "passes": false
+    }
+  },
+  "mean_score": 82.30228702036628,
+  "worst_direction_score": 62.44791012237826,
+  "all_directions_pass": false
+}

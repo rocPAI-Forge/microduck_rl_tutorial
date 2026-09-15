@@ -18,8 +18,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     ffmpeg \
+    fluxbox \
+    novnc \
+    websockify \
+    x11vnc \
+    xvfb \
     libosmesa6 \
     libgl1 \
+    libgl1-mesa-dri \
+    libglfw3 \
+    libxcursor1 \
+    libxi6 \
+    libxinerama1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir \
@@ -57,8 +67,11 @@ COPY . /workspace/microduck_rl_lab
 RUN chmod +x /workspace/microduck_rl_lab/scripts/entrypoint.sh \
     /workspace/microduck_rl_lab/scripts/check_env.sh \
     /workspace/microduck_rl_lab/scripts/run_train.sh \
-    /workspace/microduck_rl_lab/scripts/train_log_filter.py
+    /workspace/microduck_rl_lab/scripts/train_log_filter.py \
+    /workspace/microduck_rl_lab/scripts/start_web_desktop.sh \
+    /workspace/microduck_rl_lab/scripts/run_teleop.sh \
+    /workspace/microduck_rl_lab/scripts/microduck_teleop.py
 
-EXPOSE 8888
+EXPOSE 8888 6080
 ENTRYPOINT ["/workspace/microduck_rl_lab/scripts/entrypoint.sh"]
 CMD ["jupyter"]

@@ -13,6 +13,11 @@ cd "${MICRODUCK_ROOT}"
 
 if [[ "${1:-}" == "jupyter" || "${1:-}" == "lab" ]]; then
   shift || true
+  "${LAB_ROOT}/scripts/start_web_desktop.sh"
+  if [[ "${TELEOP_AUTOSTART:-demo}" != "off" ]]; then
+    bash "${LAB_ROOT}/scripts/run_teleop.sh" "${TELEOP_AUTOSTART:-demo}" \
+      > /tmp/microduck-teleop-autostart.log 2>&1 &
+  fi
   exec jupyter lab \
     --ip=0.0.0.0 \
     --port="${JUPYTER_PORT:-8888}" \

@@ -5,14 +5,14 @@
     "sim_backend": "mujoco",
     "device": "cuda",
     "collector_device": null,
-    "log_dir": "/workspace/runs/bench_2048x500/MicroduckVelocityFlat/2026-09-14_11-21-04_mujoco",
-    "start_time_utc": "2026-09-14T11:21:04.363854+00:00",
-    "hostname": "26df921f2966",
+    "log_dir": "/workspace/runs/reference_candidates_v4/MicroduckVelocityFlat/2026-09-15_04-16-00_mujoco",
+    "start_time_utc": "2026-09-15T04:16:00.320770+00:00",
+    "hostname": "b6bbb64a0ab2",
     "user": "root",
     "git": {
       "commit": "8530dbc0ea0b22718c2266c3cb89f2077fa37912",
       "branch": "main",
-      "dirty": false
+      "dirty": true
     },
     "hardware": {
       "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
@@ -28,7 +28,7 @@
     "wandb": {
       "project": "unilab",
       "entity": null,
-      "name": "ppo__MicroduckVelocityFlat__2026-09-14_11-21-04_mujoco",
+      "name": "ppo__MicroduckVelocityFlat__2026-09-15_04-16-00_mujoco",
       "group": "MicroduckVelocityFlat",
       "job_type": "ppo",
       "tags": [
@@ -40,19 +40,19 @@
       "notes": null,
       "mode": null
     },
-    "configured_seed": 1,
+    "configured_seed": 44,
     "configured_seed_source": "algo.seed",
-    "effective_seed": 1
+    "effective_seed": 44
   },
   "config": {
     "algo": {
       "algo": "ppo",
       "algo_log_name": "rsl_rl_ppo",
-      "seed": 1,
+      "seed": 44,
       "num_envs": 2048,
       "num_steps_per_env": 24,
       "max_iterations": 500,
-      "save_interval": 100,
+      "save_interval": 50,
       "empirical_normalization": true,
       "runner_class_name": "OnPolicyRunner",
       "obs_groups": {
@@ -69,8 +69,8 @@
       "experiment_name": "test",
       "run_name": "",
       "resume": false,
-      "load_run": "-1",
-      "checkpoint": -1,
+      "load_run": "/workspace/runs/bench_2048x500/MicroduckVelocityFlat/2026-09-14_11-21-04_mujoco",
+      "checkpoint": "model_499.pt",
       "resume_path": null,
       "policy": {
         "init_noise_std": 1.0,
@@ -116,7 +116,7 @@
         "symmetry_cfg": {
           "use_data_augmentation": false,
           "use_mirror_loss": true,
-          "mirror_loss_coeff": 0.5,
+          "mirror_loss_coeff": 2.0,
           "data_augmentation_func": "microduck_rl_unilab.tasks.microduck.symmetry.microduck_velocity_symmetry"
         }
       }
@@ -155,7 +155,7 @@
       "cam_tracking": false,
       "cam_tracking_env_idx": 0,
       "cam_tracking_extra_envs": 2,
-      "log_root": "/workspace/runs/bench_2048x500",
+      "log_root": "/workspace/runs/reference_candidates_v4",
       "num_timesteps": null,
       "log_dir": null
     },
@@ -1131,17 +1131,17 @@
     "reward": {
       "tracking_lin_vel": {
         "func": "unilab.envs.mdp.track_linear_velocity",
-        "weight": 2.0,
+        "weight": 6.0,
         "params": {
-          "std": 0.31622776601683794,
+          "std": 0.15,
           "command_name": "twist"
         }
       },
       "tracking_ang_vel": {
         "func": "unilab.envs.mdp.track_angular_velocity",
-        "weight": 2.0,
+        "weight": 12.0,
         "params": {
-          "std": 0.7071067811865476,
+          "std": 0.2,
           "command_name": "twist"
         }
       },

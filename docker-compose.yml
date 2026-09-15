@@ -17,6 +17,7 @@ services:
     shm_size: 8gb
     ports:
       - "${LAB_HOST_PORT:-8888}:8888"
+      - "${TELEOP_HOST_PORT:-16080}:6080"
     volumes:
       - ./runs:/workspace/runs
       - ./notebooks:/workspace/microduck_rl_lab/notebooks
@@ -26,6 +27,9 @@ services:
       HIP_VISIBLE_DEVICES: ${HIP_VISIBLE_DEVICES:-0}
       JUPYTER_PORT: 8888
       LAB_QUICK_MODE: ${LAB_QUICK_MODE:-0}
+      DISPLAY: ":1"
+      TELEOP_PUBLIC_PORT: ${TELEOP_HOST_PORT:-16080}
+      TELEOP_VNC_PASSWORD: ${TELEOP_VNC_PASSWORD:-microduck}
     security_opt:
       - seccomp:unconfined
     cap_add:
