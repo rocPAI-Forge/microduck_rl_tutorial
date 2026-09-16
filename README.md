@@ -12,7 +12,7 @@ together.
 | Phase | Config | Activity |
 |---|---|---|
 | **Smoke** | **4 × 2 iter** | Validate the full stack and inspect raw training logs |
-| **1** | **500 × 300 iter** (~5 min GPU) | Student trains from scratch |
+| **1** | **500 × 300 iter** (~4 min on MI300X) | Student trains from scratch |
 | **2** | **2048-env selected reference** | Student evals the bundled direction-tuned checkpoint |
 | **3** | Compare | reward, episode length, video, curriculum |
 | **4** | Single-robot teleop | Load a checkpoint and drive policy inference by keyboard |
@@ -102,8 +102,10 @@ bash scripts/forward_lab_ports.sh <gpu-host>
 The reference checkpoint was selected with 32 parallel, 10-second trials for
 each body-frame direction. All four linear directions passed the automated
 gate. Yaw is stable and improved but remains less accurate, especially for
-right turns across randomized seeds. Training performance was measured on
-AMD Instinct MI210; the model is not tied to MI210 hardware.
+right turns across randomized seeds. Classroom phase 1 wall clock is measured
+on AMD Instinct MI300X (~4 min for 500×300). The bundled demo was trained and
+selected on MI210 (~10 min at 2048 env); the checkpoint is not tied to either
+GPU.
 
 ## Related
 
