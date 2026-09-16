@@ -10,6 +10,9 @@ __pycache__/
 runs/
 runs/logs/
 notebooks/_eval_*.mp4
+notebooks/zh/_eval_*.mp4
+notebooks/en/_eval_*.mp4
+# leftover generated clips at notebooks root; bundled teaching clips live in assets/
 notebooks/_phase*.mp4
 !examples/velocity_flat_demo/model_499.pt
 !examples/velocity_flat_demo/run_summary.json

@@ -1,6 +1,6 @@
 # Kubernetes (optional)
 
-Minimal template for the same `microduck-rl-lab:rocm714-py312` image used by Docker Compose.
+Minimal template for the same `microduck-rl-tutorial:rocm714-py312` image used by Docker Compose.
 
 **Prerequisites**
 
@@ -13,7 +13,7 @@ Minimal template for the same `microduck-rl-lab:rocm714-py312` image used by Doc
 ```bash
 # Build/load the image on the node or push to your registry and update the image field.
 kubectl apply -f lab-deployment.yaml
-kubectl port-forward svc/microduck-rl-lab 8888:8888
+kubectl port-forward svc/microduck-rl-tutorial 8888:8888
 ```
 
 Open Jupyter at `http://localhost:8888` (token printed in pod logs).

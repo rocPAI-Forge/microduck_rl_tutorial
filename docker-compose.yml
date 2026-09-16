@@ -1,5 +1,8 @@
+name: microduck-rl-tutorial
+
 services:
   lab:
+    container_name: microduck-rl-tutorial
     build:
       context: .
       dockerfile: Dockerfile
@@ -7,7 +10,7 @@ services:
         MICRODUCK_REPO: https://github.com/rocPAI-Forge/microduck_rl_unilab.git
         MICRODUCK_REF: main
         MICRODUCK_EXPECTED_SHA: ${MICRODUCK_EXPECTED_SHA:-20fb528fa6c4a9559155b33e5304568668c7b7e2}
-    image: microduck-rl-lab:rocm714-py312
+    image: microduck-rl-tutorial:rocm714-py312
     devices:
       - /dev/kfd
       - /dev/dri

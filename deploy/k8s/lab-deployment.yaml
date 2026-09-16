@@ -1,4 +1,4 @@
-# Minimal GPU lab pod — same image as docker compose.
+# Minimal GPU lab pod — same image as docker compose: microduck-rl-tutorial:rocm714-py312.
 # Requires AMD GPU device plugin (or hostPath /dev/kfd + /dev/dri) on the cluster.
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -13,22 +13,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microduck-rl-lab
+  name: microduck-rl-tutorial
   labels:
-    app: microduck-rl-lab
+    app: microduck-rl-tutorial
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: microduck-rl-lab
+      app: microduck-rl-tutorial
   template:
     metadata:
       labels:
-        app: microduck-rl-lab
+        app: microduck-rl-tutorial
     spec:
       containers:
         - name: lab
-          image: microduck-rl-lab:rocm714-py312
+          image: microduck-rl-tutorial:rocm714-py312
           imagePullPolicy: IfNotPresent
           command: ["/workspace/microduck_rl_tutorial/scripts/entrypoint.sh", "jupyter"]
           ports:
@@ -70,11 +70,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: microduck-rl-lab
+  name: microduck-rl-tutorial
 spec:
   type: NodePort
   selector:
-    app: microduck-rl-lab
+    app: microduck-rl-tutorial
   ports:
     - port: 8888
       targetPort: jupyter

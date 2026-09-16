@@ -32,8 +32,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxinerama1 \
     && rm -rf /var/lib/apt/lists/*
 
+# jupyter_server < 2.21.1 raises AttributeError on every /static/lab request
+# when tornado >= 6.5.9 is resolved, which leaves JupyterLab unstyled.
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir \
     jupyterlab \
+    'jupyter_server>=2.21.1' \
     matplotlib \
     pandas \
     ipywidgets \
@@ -70,7 +73,8 @@ RUN chmod +x /workspace/microduck_rl_tutorial/scripts/entrypoint.sh \
     /workspace/microduck_rl_tutorial/scripts/train_log_filter.py \
     /workspace/microduck_rl_tutorial/scripts/start_web_desktop.sh \
     /workspace/microduck_rl_tutorial/scripts/run_teleop.sh \
-    /workspace/microduck_rl_tutorial/scripts/microduck_teleop.py
+    /workspace/microduck_rl_tutorial/scripts/microduck_teleop.py \
+    /workspace/microduck_rl_tutorial/scripts/microduck_quiz.py
 
 EXPOSE 8888 6080
 ENTRYPOINT ["/workspace/microduck_rl_tutorial/scripts/entrypoint.sh"]

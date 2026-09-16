@@ -1,7 +1,8 @@
 # Velocity flat reference demo
 
 This pre-trained asset is the stable baseline used by
-`notebooks/02_interactive_teleop.ipynb`. Students do not need to train it.
+`notebooks/zh/02_interactive_teleop.ipynb` and
+`notebooks/en/02_interactive_teleop.ipynb`. Students do not need to train it.
 
 - Checkpoint: `model_950.pt`
 - Training scale: 2,048 parallel environments

@@ -21,11 +21,24 @@ Phase 1 keeps notebook output throttled to one status refresh every 10
 iterations, writes the complete log to `runs/logs/phase1_500x300.log`, and
 renders a 10-second (500 control-step) evaluation video.
 
-The companion [`02_interactive_teleop.ipynb`](notebooks/02_interactive_teleop.ipynb)
+Notebooks are split by language:
+
+- Chinese: [`notebooks/zh/01_velocity_lab.ipynb`](notebooks/zh/01_velocity_lab.ipynb)
+- English: [`notebooks/en/01_velocity_lab.ipynb`](notebooks/en/01_velocity_lab.ipynb)
+
+The companion `02_interactive_teleop.ipynb` (same `zh/` or `en/` folder)
 loads either the student's 300-iteration checkpoint or the bundled demo into a
 single-robot MuJoCo viewer. A browser noVNC desktop provides live
 direction keyboard commands (`↑/↓/←/→`, with `Q/E` for yaw) while the PPO actor
 runs inference at 50 Hz.
+
+`03_quiz.ipynb` (same language folder) holds a Start button and five fixed
+beginner questions about the commands students just ran. Questions and scoring
+live in [`scripts/microduck_quiz.py`](scripts/microduck_quiz.py), which also runs
+standalone: `python3 scripts/microduck_quiz.py --lang en`.
+
+Shared eval clips live in [`notebooks/assets/`](notebooks/assets/) and are
+referenced by both Chinese and English `01` notebooks.
 
 Demo checkpoint: [`examples/velocity_flat_demo/`](examples/velocity_flat_demo/) (`model_950.pt`, ~4.7 MB).
 
@@ -35,7 +48,12 @@ Demo checkpoint: [`examples/velocity_flat_demo/`](examples/velocity_flat_demo/) 
 docker compose build && docker compose up
 ```
 
-Open [`notebooks/01_velocity_lab.ipynb`](notebooks/01_velocity_lab.ipynb).
+The image/container name matches this repo: `microduck-rl-tutorial:rocm714-py312`.
+Rebuild with that tag when you need Dockerfile or pinned `microduck_rl_unilab` updates; notebooks, scripts, and examples are bind-mounted and do not require a rebuild.
+
+Open [`notebooks/zh/01_velocity_lab.ipynb`](notebooks/zh/01_velocity_lab.ipynb)
+(Chinese) or [`notebooks/en/01_velocity_lab.ipynb`](notebooks/en/01_velocity_lab.ipynb)
+(English).
 
 Default endpoints:
 
