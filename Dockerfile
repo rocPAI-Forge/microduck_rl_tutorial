@@ -74,7 +74,8 @@ RUN chmod +x /workspace/microduck_rl_tutorial/scripts/entrypoint.sh \
     /workspace/microduck_rl_tutorial/scripts/start_web_desktop.sh \
     /workspace/microduck_rl_tutorial/scripts/run_teleop.sh \
     /workspace/microduck_rl_tutorial/scripts/microduck_teleop.py \
-    /workspace/microduck_rl_tutorial/scripts/microduck_quiz.py
+    /workspace/microduck_rl_tutorial/scripts/microduck_quiz.py \
+    /workspace/microduck_rl_tutorial/scripts/forward_lab_ports.sh
 
 EXPOSE 8888 6080
 ENTRYPOINT ["/workspace/microduck_rl_tutorial/scripts/entrypoint.sh"]

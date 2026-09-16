@@ -14,8 +14,9 @@ cd "${MICRODUCK_ROOT}"
 if [[ "${1:-}" == "jupyter" || "${1:-}" == "lab" ]]; then
   shift || true
   "${LAB_ROOT}/scripts/start_web_desktop.sh"
-  if [[ "${TELEOP_AUTOSTART:-demo}" != "off" ]]; then
-    bash "${LAB_ROOT}/scripts/run_teleop.sh" "${TELEOP_AUTOSTART:-demo}" \
+  # Notebook 02 launches teleop on demand; autostart would hold a GPU context idle.
+  if [[ "${TELEOP_AUTOSTART:-off}" != "off" ]]; then
+    bash "${LAB_ROOT}/scripts/run_teleop.sh" "${TELEOP_AUTOSTART}" \
       > /tmp/microduck-teleop-autostart.log 2>&1 &
   fi
   exec jupyter lab \

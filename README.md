@@ -84,10 +84,18 @@ Default endpoints (the bring-up script may choose another Jupyter port if
 `8888` is already in use):
 
 - JupyterLab: host port `8888` (`LAB_HOST_PORT`)
-- Interactive MuJoCo/noVNC: host port `16080` (`TELEOP_HOST_PORT`)
+- Interactive MuJoCo/noVNC: host port `16080` (`TELEOP_HOST_PORT`), open `/vnc.html`
 
 The default noVNC password is `microduck`. Override it before startup with
 `TELEOP_VNC_PASSWORD`.
+
+Notebook 02 embeds noVNC as `Jupyter-URL-hostname:TELEOP_PUBLIC_PORT`.
+`TELEOP_PUBLIC_PORT` defaults to `TELEOP_HOST_PORT`. Through a jump host,
+forward **both** ports and keep the noVNC number unchanged:
+
+```bash
+bash scripts/forward_lab_ports.sh <gpu-host>
+```
 
 ## Demo metrics
 

@@ -25,8 +25,11 @@ Bring up the MicroDuck Jupyter lab on this host.
 Environment:
   LAB_HOST_PORT        preferred Jupyter host port (default 8888; falls back if busy)
   TELEOP_HOST_PORT     preferred noVNC host port (default 16080; falls back if busy)
+  TELEOP_PUBLIC_PORT   noVNC port in the browser URL / notebook iframe
+                       (default: same as TELEOP_HOST_PORT)
   HIP_VISIBLE_DEVICES  GPU index (default 0)
   TELEOP_VNC_PASSWORD  noVNC password (default microduck)
+  TELEOP_AUTOSTART     teleop at container start: off (default) | demo | latest | auto
 EOF
 }
 
@@ -94,6 +97,9 @@ docker compose version >/dev/null || { echo "docker compose plugin is missing" >
 
 LAB_HOST_PORT="$(pick_port "${PREFERRED_LAB_PORT}" 18888 28888 8889)"
 TELEOP_HOST_PORT="$(pick_port "${PREFERRED_TELEOP_PORT}" 16081 16082 26080)"
+# Browser-facing noVNC port. Keep equal to TELEOP_HOST_PORT unless a jump
+# host remaps noVNC; then set TELEOP_PUBLIC_PORT to the port in the URL bar.
+export TELEOP_PUBLIC_PORT="${TELEOP_PUBLIC_PORT:-${TELEOP_HOST_PORT}}"
 export LAB_HOST_PORT TELEOP_HOST_PORT
 export HIP_VISIBLE_DEVICES="${HIP_VISIBLE_DEVICES:-0}"
 export TELEOP_VNC_PASSWORD="${TELEOP_VNC_PASSWORD:-microduck}"
@@ -102,6 +108,7 @@ echo "compose:              ${COMPOSE_FILE}"
 echo "image:                ${IMAGE}"
 echo "LAB_HOST_PORT:        ${LAB_HOST_PORT}"
 echo "TELEOP_HOST_PORT:     ${TELEOP_HOST_PORT}"
+echo "TELEOP_PUBLIC_PORT:   ${TELEOP_PUBLIC_PORT}"
 echo "HIP_VISIBLE_DEVICES:  ${HIP_VISIBLE_DEVICES}"
 
 if [[ "${REBUILD}" -eq 1 ]]; then
@@ -147,5 +154,13 @@ else
   echo "Jupyter token not ready yet. Print it with:"
   echo "  docker exec ${CONTAINER} jupyter server list"
 fi
-echo "noVNC:            http://127.0.0.1:${TELEOP_HOST_PORT}  (password: ${TELEOP_VNC_PASSWORD})"
+echo "noVNC:            http://127.0.0.1:${TELEOP_HOST_PORT}/vnc.html  (password: ${TELEOP_VNC_PASSWORD})"
 echo "Stop:             docker compose -f ${COMPOSE_FILE} down"
+echo
+echo "Jump host / browser on another machine: forward BOTH ports and keep"
+echo "the noVNC number unchanged (02 iframe = Jupyter hostname + TELEOP_PUBLIC_PORT):"
+echo "  bash scripts/forward_lab_ports.sh <gpu-host>"
+echo "  # or: ssh -N -L ${LAB_HOST_PORT}:127.0.0.1:${LAB_HOST_PORT} \\"
+echo "  #           -L ${TELEOP_HOST_PORT}:127.0.0.1:${TELEOP_HOST_PORT} <gpu-host>"
+echo "Do not remap only Jupyter to a new local port without also forwarding"
+echo "noVNC as ${TELEOP_PUBLIC_PORT} on the hostname in the Jupyter URL."
