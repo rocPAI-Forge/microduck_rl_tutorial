@@ -44,18 +44,44 @@ Demo checkpoint: [`examples/velocity_flat_demo/`](examples/velocity_flat_demo/) 
 
 ## Quick start
 
+**Students / one-click (pull the published image):**
+
 ```bash
-docker compose build && docker compose up
+bash scripts/bring_up_lab.sh
 ```
 
-The image/container name matches this repo: `microduck-rl-tutorial:rocm714-py312`.
-Rebuild with that tag when you need Dockerfile or pinned `microduck_rl_unilab` updates; notebooks, scripts, and examples are bind-mounted and do not require a rebuild.
+Uses [`docker-compose.hub.yml`](docker-compose.hub.yml) and
+`alexhegit/microduck-rl-tutorial:rocm714-py312` (JupyterLab hotfix included).
+The script checks ROCm devices, picks a free `LAB_HOST_PORT` if `8888` is
+taken, and prints the Jupyter URL with token.
+
+**Maintainers (build from the ROCm PyTorch base image):**
+
+```bash
+bash scripts/bring_up_lab.sh --rebuild
+```
+
+Uses [`docker-compose.yml`](docker-compose.yml) and this repo's `Dockerfile`.
+
+Agents: follow [`AGENTS.md`](AGENTS.md). Do not use the Kubernetes templates
+for this.
+
+Equivalent Compose without the helper script:
+
+```bash
+# Hub, out of the box
+docker compose -f docker-compose.hub.yml pull && docker compose -f docker-compose.hub.yml up
+
+# Source build
+docker compose -f docker-compose.yml build && docker compose -f docker-compose.yml up
+```
 
 Open [`notebooks/zh/01_velocity_lab.ipynb`](notebooks/zh/01_velocity_lab.ipynb)
 (Chinese) or [`notebooks/en/01_velocity_lab.ipynb`](notebooks/en/01_velocity_lab.ipynb)
 (English).
 
-Default endpoints:
+Default endpoints (the bring-up script may choose another Jupyter port if
+`8888` is already in use):
 
 - JupyterLab: host port `8888` (`LAB_HOST_PORT`)
 - Interactive MuJoCo/noVNC: host port `16080` (`TELEOP_HOST_PORT`)
