@@ -1,11 +1,11 @@
-# Pull the published lab image (Jupyter hotfix included). No local Dockerfile build.
-# Maintainers building from rocm/pytorch should use docker-compose.yml instead.
+# Optional pull file. Prefer `bash scripts/bring_up_lab.sh --pull`, which
+# downloads this tag and starts docker-compose.yml.
 name: microduck-rl-tutorial
 
 services:
   lab:
     container_name: microduck-rl-tutorial
-    image: alexhegit/microduck-rl-tutorial:rocm714-py312
+    image: alexhegit/microduck-rl-tutorial:rocm724-py312
     pull_policy: missing
     devices:
       - /dev/kfd

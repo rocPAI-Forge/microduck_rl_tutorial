@@ -15,17 +15,25 @@ Treat phrases such as「把 lab 拉起来」「一键部署」「start the lab�
    bash scripts/bring_up_lab.sh
    ```
 
-   This uses `docker-compose.yml` and local tag `microduck-rl-tutorial:rocm724-py312`, built from `rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0`.
+   This uses `docker-compose.yml` and local tag `microduck-rl-tutorial:rocm724-py312`. When that tag is absent, the script builds it from `rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0`.
 
-3. Rebuild that same image from source:
+3. Download the published image when the user asks to pull the ready-made image:
+
+   ```bash
+   bash scripts/bring_up_lab.sh --pull
+   ```
+
+   This pulls `alexhegit/microduck-rl-tutorial:rocm724-py312`, tags it as `microduck-rl-tutorial:rocm724-py312`, and starts the same compose file. Do not start from `docker-compose.hub.yml`.
+
+4. Rebuild that same image from source:
 
    ```bash
    bash scripts/bring_up_lab.sh --rebuild
    ```
 
-4. Paste browser URLs from **Ports and browser access** below (Jupyter with `token=`, Chinese and English `01`, noVNC `/vnc.html`). Prefer the hostname the user’s browser will actually open (GPU LAN, or jump-host LAN after forwarding).
+5. Paste browser URLs from **Ports and browser access** below (Jupyter with `token=`, Chinese and English `01`, noVNC `/vnc.html`). Prefer the hostname the user’s browser will actually open (GPU LAN, or jump-host LAN after forwarding).
 
-5. Stop with the `docker compose -f … down` line the script printed (same compose file that was used to start). If you started `scripts/forward_lab_ports.sh`, stop that SSH tunnel too.
+6. Stop with the `docker compose -f … down` line the script printed (same compose file that was used to start). If you started `scripts/forward_lab_ports.sh`, stop that SSH tunnel too.
 
 ## Preconditions the script already checks
 
@@ -119,6 +127,7 @@ Bind mounts already overlay `notebooks/`, `scripts/`, `examples/`, and `runs/`. 
 |---|---|
 | Container | `microduck-rl-tutorial` |
 | Unified local tag | `microduck-rl-tutorial:rocm724-py312` |
+| Published Hub tag | `alexhegit/microduck-rl-tutorial:rocm724-py312` |
 | Base image | `rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0` |
 
 Do not rename the container in a deploy session.

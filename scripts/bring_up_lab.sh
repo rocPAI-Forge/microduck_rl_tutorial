@@ -7,22 +7,28 @@ cd "${ROOT}"
 
 CONTAINER="${CONTAINER:-microduck-rl-tutorial}"
 LOCAL_IMAGE="${LOCAL_IMAGE:-microduck-rl-tutorial:rocm724-py312}"
+HUB_IMAGE="${HUB_IMAGE:-alexhegit/microduck-rl-tutorial:rocm724-py312}"
 REBUILD=0
+PULL=0
 PREFERRED_LAB_PORT="${LAB_HOST_PORT:-8888}"
 PREFERRED_TELEOP_PORT="${TELEOP_HOST_PORT:-16080}"
 
 usage() {
   cat <<'EOF'
-Usage: scripts/bring_up_lab.sh [--rebuild]
+Usage: scripts/bring_up_lab.sh [--pull | --rebuild]
 
 Bring up the MicroDuck Jupyter lab on this host.
 
   (default)   Start microduck-rl-tutorial:rocm724-py312 (docker-compose.yml).
+              Build it from rocm/pytorch when the local tag is absent.
               The image's HIP PyTorch covers Instinct and Radeon; the running
               GPU is whichever device the host exposes. No GPU-family flag.
+  --pull      Download alexhegit/microduck-rl-tutorial:rocm724-py312, tag it
+              as the local image, and start. Skips the Dockerfile build.
   --rebuild   Build that image from rocm/pytorch, then start.
 
 Environment:
+  HUB_IMAGE            published image for --pull
   LAB_HOST_PORT        preferred Jupyter host port (default 8888; falls back if busy)
   TELEOP_HOST_PORT     preferred noVNC host port (default 16080; falls back if busy)
   TELEOP_PUBLIC_PORT   noVNC port in the browser URL / notebook iframe
@@ -36,6 +42,7 @@ EOF
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --rebuild) REBUILD=1; shift ;;
+    --pull) PULL=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "unknown argument: $1" >&2; usage >&2; exit 2 ;;
   esac
@@ -110,7 +117,19 @@ echo "TELEOP_HOST_PORT:     ${TELEOP_HOST_PORT}"
 echo "TELEOP_PUBLIC_PORT:   ${TELEOP_PUBLIC_PORT}"
 echo "HIP_VISIBLE_DEVICES:  ${HIP_VISIBLE_DEVICES}"
 
-if [[ "${REBUILD}" -eq 1 ]] || ! docker image inspect "${IMAGE}" >/dev/null 2>&1; then
+if [[ "${REBUILD}" -eq 1 && "${PULL}" -eq 1 ]]; then
+  echo "use only one of --pull or --rebuild" >&2
+  exit 2
+fi
+
+if [[ "${REBUILD}" -eq 1 ]]; then
+  echo "== docker compose -f docker-compose.yml build =="
+  docker compose -f "${COMPOSE_FILE}" build
+elif [[ "${PULL}" -eq 1 ]]; then
+  echo "== docker pull ${HUB_IMAGE} =="
+  docker pull "${HUB_IMAGE}"
+  docker tag "${HUB_IMAGE}" "${IMAGE}"
+elif ! docker image inspect "${IMAGE}" >/dev/null 2>&1; then
   echo "== docker compose -f docker-compose.yml build =="
   docker compose -f "${COMPOSE_FILE}" build
 else

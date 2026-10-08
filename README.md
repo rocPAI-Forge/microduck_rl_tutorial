@@ -44,22 +44,38 @@ Demo checkpoint: [`examples/velocity_flat_demo/`](examples/velocity_flat_demo/) 
 
 ## Quick start
 
-**One image for Instinct and Radeon:**
+**One image for Instinct and Radeon.** HIP PyTorch in
+`microduck-rl-tutorial:rocm724-py312` includes `gfx90a` (MI210), `gfx942`
+(MI300X), `gfx1100` (W7900), `gfx1201` (R9700 / 9070 XT), and `gfx1151`
+(8060S). The container does not set `HSA_OVERRIDE_GFX_VERSION` or any
+GPU-family switch. It uses the GPU the host driver exposes.
+
+Clone this repository, then pick one of the two commands below. Both use
+[`docker-compose.yml`](docker-compose.yml), check `/dev/kfd` and `/dev/dri`,
+pick a free `LAB_HOST_PORT` if `8888` is taken, and print the Jupyter URL
+with token.
+
+### Download the published image
+
+```bash
+bash scripts/bring_up_lab.sh --pull
+```
+
+Downloads [`alexhegit/microduck-rl-tutorial:rocm724-py312`](https://hub.docker.com/r/alexhegit/microduck-rl-tutorial)
+from Docker Hub, tags it locally as `microduck-rl-tutorial:rocm724-py312`,
+and starts the lab. That image is already built on
+`rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0`.
+
+### Build locally
 
 ```bash
 bash scripts/bring_up_lab.sh
 ```
 
-Uses [`docker-compose.yml`](docker-compose.yml) and
-`microduck-rl-tutorial:rocm724-py312`, built from
-`rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0`.
-That image includes `gfx90a` (MI210), `gfx942` (MI300X),
-`gfx1100` (W7900), `gfx1201` (R9700 / 9070 XT), and `gfx1151` (8060S).
-The container does not set `HSA_OVERRIDE_GFX_VERSION` or any GPU-family
-switch. The script checks ROCm devices, picks a free `LAB_HOST_PORT` if
-`8888` is taken, and prints the Jupyter URL with token.
-
-Rebuild the same image from source with `bash scripts/bring_up_lab.sh --rebuild`.
+Builds `microduck-rl-tutorial:rocm724-py312` from
+`rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0` when
+that local tag is absent, then starts the lab. Build again from the same
+AMD base image with `bash scripts/bring_up_lab.sh --rebuild`.
 
 Agents: follow [`AGENTS.md`](AGENTS.md). Do not use the Kubernetes templates
 for this.
