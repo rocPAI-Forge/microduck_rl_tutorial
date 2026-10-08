@@ -25,7 +25,9 @@ print(f"HIP (ROCm)      {hip or 'none (CUDA build?)'}")
 print(f"CUDA available  {torch.cuda.is_available()}")
 if torch.cuda.is_available():
     print(f"GPU count       {torch.cuda.device_count()}")
-    print(f"GPU 0           {torch.cuda.get_device_name(0)}")
+    props = torch.cuda.get_device_properties(0)
+    name = torch.cuda.get_device_name(0) or getattr(props, "gcnArchName", "unknown")
+    print(f"GPU 0           {name}")
 
 for pkg in ("unilab", "unilab-rl", "unisim-core", "microduck_rl_unilab"):
     try:

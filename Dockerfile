@@ -1,7 +1,22 @@
 # One-hour MicroDuck Jupyter lab on AMD ROCm.
-# Base image keeps a HIP-enabled torch 2.11.0 build; do not run `make sync-rocm`
-# inside this container or uv may replace it with a CUDA wheel.
-FROM rocm/pytorch:rocm7.14.1_ubuntu24.04_py3.12_pytorch_release_2.11.0
+# One HIP PyTorch image covers Instinct and Radeon. The container uses the
+# GPU the host driver exposes.
+# Do not run `make sync-rocm` inside this container or uv may replace it with a CUDA wheel.
+ARG BASE_IMAGE=rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0
+FROM ${BASE_IMAGE}
+
+# Optional repair when a base tag resolves the PyPI CUDA wheel. Leave empty
+# for the default image, which already ships HIP PyTorch.
+ARG ROCM_TORCH_WHEEL=
+RUN if [ -n "${ROCM_TORCH_WHEEL}" ]; then \
+      pip install --no-cache-dir --no-deps --force-reinstall "${ROCM_TORCH_WHEEL}"; \
+    fi \
+    && python3 -c 'import torch; assert torch.version.hip, f"expected HIP PyTorch, got {torch.__version__}"'
+
+ARG ROCM_TRITON_WHEEL=
+RUN if [ -n "${ROCM_TRITON_WHEEL}" ]; then \
+      pip install --no-cache-dir --no-deps --force-reinstall "${ROCM_TRITON_WHEEL}"; \
+    fi
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \

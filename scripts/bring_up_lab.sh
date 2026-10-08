@@ -6,8 +6,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT}"
 
 CONTAINER="${CONTAINER:-microduck-rl-tutorial}"
-HUB_IMAGE="${HUB_IMAGE:-alexhegit/microduck-rl-tutorial:rocm714-py312}"
-LOCAL_IMAGE="${LOCAL_IMAGE:-microduck-rl-tutorial:rocm714-py312}"
+LOCAL_IMAGE="${LOCAL_IMAGE:-microduck-rl-tutorial:rocm724-py312}"
 REBUILD=0
 PREFERRED_LAB_PORT="${LAB_HOST_PORT:-8888}"
 PREFERRED_TELEOP_PORT="${TELEOP_HOST_PORT:-16080}"
@@ -18,9 +17,10 @@ Usage: scripts/bring_up_lab.sh [--rebuild]
 
 Bring up the MicroDuck Jupyter lab on this host.
 
-  (default)   Pull alexhegit/microduck-rl-tutorial:rocm714-py312 and start it
-              (docker-compose.hub.yml). No local Dockerfile build.
-  --rebuild   Build from rocm/pytorch via docker-compose.yml, then start.
+  (default)   Start microduck-rl-tutorial:rocm724-py312 (docker-compose.yml).
+              The image's HIP PyTorch covers Instinct and Radeon; the running
+              GPU is whichever device the host exposes. No GPU-family flag.
+  --rebuild   Build that image from rocm/pytorch, then start.
 
 Environment:
   LAB_HOST_PORT        preferred Jupyter host port (default 8888; falls back if busy)
@@ -41,13 +41,12 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ "${REBUILD}" -eq 1 ]]; then
-  COMPOSE_FILE="${ROOT}/docker-compose.yml"
-  IMAGE="${LOCAL_IMAGE}"
-else
-  COMPOSE_FILE="${ROOT}/docker-compose.hub.yml"
-  IMAGE="${HUB_IMAGE}"
-fi
+export BASE_IMAGE="${BASE_IMAGE:-rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0}"
+export ROCM_TORCH_WHEEL="${ROCM_TORCH_WHEEL:-}"
+export ROCM_TRITON_WHEEL="${ROCM_TRITON_WHEEL:-}"
+export LOCAL_IMAGE
+COMPOSE_FILE="${ROOT}/docker-compose.yml"
+IMAGE="${LOCAL_IMAGE}"
 
 port_busy() {
   local port="$1"
@@ -111,16 +110,11 @@ echo "TELEOP_HOST_PORT:     ${TELEOP_HOST_PORT}"
 echo "TELEOP_PUBLIC_PORT:   ${TELEOP_PUBLIC_PORT}"
 echo "HIP_VISIBLE_DEVICES:  ${HIP_VISIBLE_DEVICES}"
 
-if [[ "${REBUILD}" -eq 1 ]]; then
+if [[ "${REBUILD}" -eq 1 ]] || ! docker image inspect "${IMAGE}" >/dev/null 2>&1; then
   echo "== docker compose -f docker-compose.yml build =="
   docker compose -f "${COMPOSE_FILE}" build
 else
-  if docker image inspect "${IMAGE}" >/dev/null 2>&1; then
-    echo "== ${IMAGE} present locally; skip pull =="
-  else
-    echo "== docker compose -f docker-compose.hub.yml pull =="
-    docker compose -f "${COMPOSE_FILE}" pull
-  fi
+  echo "== ${IMAGE} present locally; skip build =="
 fi
 
 echo "== docker compose up -d =="
@@ -148,8 +142,8 @@ if [[ -n "${token}" ]]; then
   if [[ -n "${host_ip}" ]]; then
     echo "Jupyter (LAN):    http://${host_ip}:${LAB_HOST_PORT}/lab?token=${token}"
   fi
-  echo "Chinese 01:       http://127.0.0.1:${LAB_HOST_PORT}/lab/tree/zh/01_velocity_lab.ipynb?token=${token}"
-  echo "English 01:       http://127.0.0.1:${LAB_HOST_PORT}/lab/tree/en/01_velocity_lab.ipynb?token=${token}"
+  echo "Chinese notebook: http://127.0.0.1:${LAB_HOST_PORT}/lab/tree/zh/microduck_lab.ipynb?token=${token}"
+  echo "English notebook: http://127.0.0.1:${LAB_HOST_PORT}/lab/tree/en/microduck_lab.ipynb?token=${token}"
 else
   echo "Jupyter token not ready yet. Print it with:"
   echo "  docker exec ${CONTAINER} jupyter server list"

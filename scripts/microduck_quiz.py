@@ -2,7 +2,7 @@
 """Five-question lesson check for the MicroDuck hands-on lab.
 
 Questions follow the commands students actually run in
-``notebooks/{zh,en}/01_velocity_lab.ipynb`` and ``02_interactive_teleop.ipynb``.
+``notebooks/{zh,en}/microduck_lab.ipynb``.
 Order is fixed: no sampling, no choice shuffling.
 
 Used from the notebooks through :func:`launch`. Also runs standalone:

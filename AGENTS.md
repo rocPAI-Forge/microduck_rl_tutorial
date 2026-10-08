@@ -9,22 +9,19 @@ Kubernetes is out of scope. Use Docker Compose on the host.
 Treat phrases such as「把 lab 拉起来」「一键部署」「start the lab」「bring up the tutorial」as this workflow. Do not invent a second deploy path.
 
 1. Read this file. Do not start from K8s manifests.
-2. Default (out-of-the-box Hub image, includes the JupyterLab static-file hotfix):
+2. Default image, one command for Instinct and Radeon. HIP PyTorch in this image already contains `gfx90a`, `gfx942`, `gfx1100`, `gfx1201`, and `gfx1151`. The container sets no architecture override; it uses the GPU the host driver exposes.
 
    ```bash
    bash scripts/bring_up_lab.sh
    ```
 
-   This uses `docker-compose.hub.yml` and image
-   `alexhegit/microduck-rl-tutorial:rocm714-py312`.
+   This uses `docker-compose.yml` and local tag `microduck-rl-tutorial:rocm724-py312`, built from `rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0`.
 
-3. Source build from `rocm/pytorch` (Dockerfile, UniLab pin, or unpublished Hub image):
+3. Rebuild that same image from source:
 
    ```bash
    bash scripts/bring_up_lab.sh --rebuild
    ```
-
-   This uses `docker-compose.yml` and local tag `microduck-rl-tutorial:rocm714-py312`.
 
 4. Paste browser URLs from **Ports and browser access** below (Jupyter with `token=`, Chinese and English `01`, noVNC `/vnc.html`). Prefer the hostname the user’s browser will actually open (GPU LAN, or jump-host LAN after forwarding).
 
@@ -37,7 +34,7 @@ Treat phrases such as「把 lab 拉起来」「一键部署」「start the lab�
 
 If those fail, report the missing item. Do not try CUDA, do not try `pip install` on the host, do not rewrite the Compose GPU device list unless the user asks.
 
-Hub pull requires Docker Hub access. If pull fails with auth errors, tell the user to run `docker login -u alexhegit` in their own terminal (use a Hub access token as the password; do not ask them to paste the token into chat).
+The default image is local. Do not set `HSA_OVERRIDE_GFX_VERSION` or a GPU-family switch; PyTorch selects the architecture from the GPU on `/dev/kfd`.
 
 ## Ports and browser access
 
@@ -99,8 +96,8 @@ Then paste Jupyter as `http://<jump-ip>:18888/lab?token=...` and noVNC as `http:
 ### What to paste after bring-up
 
 - Jupyter Lab URL with `token=`
-- Chinese `01`: `/lab/tree/zh/01_velocity_lab.ipynb?token=`
-- English `01`: `/lab/tree/en/01_velocity_lab.ipynb?token=`
+- Chinese notebook: `/lab/tree/zh/microduck_lab.ipynb?token=`
+- English notebook: `/lab/tree/en/microduck_lab.ipynb?token=`
 - noVNC: `/vnc.html` on `TELEOP_PUBLIC_PORT` (password `microduck` unless overridden)
 - Stop: the `docker compose -f … down` line from the GPU host
 
@@ -121,8 +118,8 @@ Bind mounts already overlay `notebooks/`, `scripts/`, `examples/`, and `runs/`. 
 | Role | Name |
 |---|---|
 | Container | `microduck-rl-tutorial` |
-| Local source-build tag | `microduck-rl-tutorial:rocm714-py312` |
-| Docker Hub (students) | `alexhegit/microduck-rl-tutorial:rocm714-py312` |
+| Unified local tag | `microduck-rl-tutorial:rocm724-py312` |
+| Base image | `rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0` |
 
 Do not rename the container in a deploy session.
 
@@ -131,8 +128,8 @@ Do not rename the container in a deploy session.
 After a successful `--rebuild`:
 
 ```bash
-docker tag microduck-rl-tutorial:rocm714-py312 alexhegit/microduck-rl-tutorial:rocm714-py312
-docker push alexhegit/microduck-rl-tutorial:rocm714-py312
+docker tag microduck-rl-tutorial:rocm724-py312 alexhegit/microduck-rl-tutorial:rocm724-py312
+docker push alexhegit/microduck-rl-tutorial:rocm724-py312
 ```
 
 The published image must include `jupyter_server>=2.21.1`. Do not push an older local tag that predates that pin.
@@ -141,8 +138,8 @@ The published image must include `jupyter_server>=2.21.1`. Do not push an older 
 
 Jupyter `notebook-dir` is `notebooks/`:
 
-- Chinese: `zh/01_velocity_lab.ipynb`, `zh/02_interactive_teleop.ipynb`, `zh/03_quiz.ipynb`
-- English: `en/01_velocity_lab.ipynb`, `en/02_interactive_teleop.ipynb`, `en/03_quiz.ipynb`
+- Chinese: `zh/microduck_lab.ipynb`
+- English: `en/microduck_lab.ipynb`
 
 Quiz logic is `scripts/microduck_quiz.py`. Shared clips are `notebooks/assets/_phase1.mp4` and `_phase2.mp4`.
 

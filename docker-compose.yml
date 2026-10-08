@@ -1,5 +1,5 @@
-# Source build: ROCm PyTorch base image + this repo's Dockerfile.
-# Students / one-click bring-up should use docker-compose.hub.yml instead.
+# One lab image for Instinct and Radeon. The base image includes
+# gfx90a, gfx942, gfx1100, gfx1201, and gfx1151; no GPU-family flag.
 name: microduck-rl-tutorial
 
 services:
@@ -9,10 +9,13 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        BASE_IMAGE: ${BASE_IMAGE:-rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0}
+        ROCM_TORCH_WHEEL: ${ROCM_TORCH_WHEEL:-}
+        ROCM_TRITON_WHEEL: ${ROCM_TRITON_WHEEL:-}
         MICRODUCK_REPO: https://github.com/rocPAI-Forge/microduck_rl_unilab.git
-        MICRODUCK_REF: main
+        MICRODUCK_REF: ${MICRODUCK_REF:-20fb528fa6c4a9559155b33e5304568668c7b7e2}
         MICRODUCK_EXPECTED_SHA: ${MICRODUCK_EXPECTED_SHA:-20fb528fa6c4a9559155b33e5304568668c7b7e2}
-    image: microduck-rl-tutorial:rocm714-py312
+    image: ${LOCAL_IMAGE:-microduck-rl-tutorial:rocm724-py312}
     devices:
       - /dev/kfd
       - /dev/dri

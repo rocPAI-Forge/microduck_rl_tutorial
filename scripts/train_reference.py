@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import unilab
 
 from microduck_rl_unilab.tasks.microduck.manager_terms import MicroduckVelocityCommand
 
@@ -70,7 +71,7 @@ def main() -> None:
         flush=True,
     )
 
-    script = Path("/opt/venv/lib/python3.12/site-packages/unilab/scripts/train_rsl_rl.py")
+    script = Path(unilab.__file__).resolve().parent / "scripts" / "train_rsl_rl.py"
     if not script.is_file():
         raise FileNotFoundError(script)
     runpy.run_path(str(script), run_name="__main__")

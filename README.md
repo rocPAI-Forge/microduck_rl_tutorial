@@ -21,47 +21,45 @@ Phase 1 keeps notebook output throttled to one status refresh every 10
 iterations, writes the complete log to `runs/logs/phase1_500x300.log`, and
 renders a 10-second (500 control-step) evaluation video.
 
-Notebooks are split by language:
+Each language is one notebook. Training, keyboard teleop, and the five-question
+quiz are sections of the same file:
 
-- Chinese: [`notebooks/zh/01_velocity_lab.ipynb`](notebooks/zh/01_velocity_lab.ipynb)
-- English: [`notebooks/en/01_velocity_lab.ipynb`](notebooks/en/01_velocity_lab.ipynb)
+- Chinese: [`notebooks/zh/microduck_lab.ipynb`](notebooks/zh/microduck_lab.ipynb)
+- English: [`notebooks/en/microduck_lab.ipynb`](notebooks/en/microduck_lab.ipynb)
 
-The companion `02_interactive_teleop.ipynb` (same `zh/` or `en/` folder)
-loads either the student's 300-iteration checkpoint or the bundled demo into a
-single-robot MuJoCo viewer. A browser noVNC desktop provides live
-direction keyboard commands (`↑/↓/←/→`, with `Q/E` for yaw) while the PPO actor
-runs inference at 50 Hz.
+The teleop section loads either the student's 300-iteration checkpoint or the
+bundled demo into a single-robot MuJoCo viewer. A browser noVNC desktop provides
+live direction keyboard commands (`↑/↓/←/→`, with `Q/E` for yaw) while the PPO
+actor runs inference at 50 Hz.
 
-`03_quiz.ipynb` (same language folder) holds a Start button and five fixed
-beginner questions about the commands students just ran. Questions and scoring
-live in [`scripts/microduck_quiz.py`](scripts/microduck_quiz.py), which also runs
+The quiz section holds a Start button and five fixed beginner questions about
+the commands students just ran. Questions and scoring live in
+[`scripts/microduck_quiz.py`](scripts/microduck_quiz.py), which also runs
 standalone: `python3 scripts/microduck_quiz.py --lang en`.
 
 Shared eval clips live in [`notebooks/assets/`](notebooks/assets/) and are
-referenced by both Chinese and English `01` notebooks.
+referenced by both language notebooks.
 
 Demo checkpoint: [`examples/velocity_flat_demo/`](examples/velocity_flat_demo/) (`model_950.pt`, ~4.7 MB).
 
 ## Quick start
 
-**Students / one-click (pull the published image):**
+**One image for Instinct and Radeon:**
 
 ```bash
 bash scripts/bring_up_lab.sh
 ```
 
-Uses [`docker-compose.hub.yml`](docker-compose.hub.yml) and
-`alexhegit/microduck-rl-tutorial:rocm714-py312` (JupyterLab hotfix included).
-The script checks ROCm devices, picks a free `LAB_HOST_PORT` if `8888` is
-taken, and prints the Jupyter URL with token.
+Uses [`docker-compose.yml`](docker-compose.yml) and
+`microduck-rl-tutorial:rocm724-py312`, built from
+`rocm/pytorch:rocm7.2.4_ubuntu24.04_py3.12_pytorch_release_2.10.0`.
+That image includes `gfx90a` (MI210), `gfx942` (MI300X),
+`gfx1100` (W7900), `gfx1201` (R9700 / 9070 XT), and `gfx1151` (8060S).
+The container does not set `HSA_OVERRIDE_GFX_VERSION` or any GPU-family
+switch. The script checks ROCm devices, picks a free `LAB_HOST_PORT` if
+`8888` is taken, and prints the Jupyter URL with token.
 
-**Maintainers (build from the ROCm PyTorch base image):**
-
-```bash
-bash scripts/bring_up_lab.sh --rebuild
-```
-
-Uses [`docker-compose.yml`](docker-compose.yml) and this repo's `Dockerfile`.
+Rebuild the same image from source with `bash scripts/bring_up_lab.sh --rebuild`.
 
 Agents: follow [`AGENTS.md`](AGENTS.md). Do not use the Kubernetes templates
 for this.
@@ -69,15 +67,11 @@ for this.
 Equivalent Compose without the helper script:
 
 ```bash
-# Hub, out of the box
-docker compose -f docker-compose.hub.yml pull && docker compose -f docker-compose.hub.yml up
-
-# Source build
-docker compose -f docker-compose.yml build && docker compose -f docker-compose.yml up
+docker compose -f docker-compose.yml up
 ```
 
-Open [`notebooks/zh/01_velocity_lab.ipynb`](notebooks/zh/01_velocity_lab.ipynb)
-(Chinese) or [`notebooks/en/01_velocity_lab.ipynb`](notebooks/en/01_velocity_lab.ipynb)
+Open [`notebooks/zh/microduck_lab.ipynb`](notebooks/zh/microduck_lab.ipynb)
+(Chinese) or [`notebooks/en/microduck_lab.ipynb`](notebooks/en/microduck_lab.ipynb)
 (English).
 
 Default endpoints (the bring-up script may choose another Jupyter port if
