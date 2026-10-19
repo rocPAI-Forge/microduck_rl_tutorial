@@ -12,7 +12,7 @@ together.
 | Phase | Config | Activity |
 |---|---|---|
 | **Smoke** | **4 × 2 iter** | Validate the full stack and inspect raw training logs |
-| **1** | **500 × 300 iter** (~4 min on MI300X) | Student trains from scratch |
+| **1** | **500 × 300 iter** | Student trains from scratch |
 | **2** | **2048-env selected reference** | Student evals the bundled direction-tuned checkpoint |
 | **3** | Compare | reward, episode length, video, curriculum |
 | **4** | Single-robot teleop | Load a checkpoint and drive policy inference by keyboard |
@@ -44,11 +44,15 @@ Demo checkpoint: [`examples/velocity_flat_demo/`](examples/velocity_flat_demo/) 
 
 ## Quick start
 
-**One image for Instinct and Radeon.** HIP PyTorch in
-`microduck-rl-tutorial:rocm724-py312` includes `gfx90a` (MI210), `gfx942`
-(MI300X), `gfx1100` (W7900), `gfx1201` (R9700 / 9070 XT), and `gfx1151`
-(8060S). The container does not set `HSA_OVERRIDE_GFX_VERSION` or any
-GPU-family switch. It uses the GPU the host driver exposes.
+**One image, one code path, one GPU.** The full tutorial was executed on each of these with `microduck-rl-tutorial:rocm724-py312`. The container does not set `HSA_OVERRIDE_GFX_VERSION` or any GPU-family switch.
+
+| Validated hardware | Architecture | GPUs required |
+|---|---|---|
+| AMD Instinct™ MI300X | `gfx942` | 1 |
+| AMD Radeon™ R9700 | `gfx1201` | 1 |
+| AMD Ryzen™ AI Max (Strix Halo APU) | `gfx1151` | 1 |
+
+HIP PyTorch in that image also ships `gfx90a` and `gfx1100`. Those targets are not part of the validation table above.
 
 Clone this repository, then pick one of the two commands below. Both use
 [`docker-compose.yml`](docker-compose.yml), check `/dev/kfd` and `/dev/dri`,
@@ -112,10 +116,10 @@ bash scripts/forward_lab_ports.sh <gpu-host>
 The reference checkpoint was selected with 32 parallel, 10-second trials for
 each body-frame direction. All four linear directions passed the automated
 gate. Yaw is stable and improved but remains less accurate, especially for
-right turns across randomized seeds. Classroom phase 1 wall clock is measured
-on AMD Instinct MI300X (~4 min for 500×300). The bundled demo was trained and
-selected on MI210 (~10 min at 2048 env); the checkpoint is not tied to either
-GPU.
+right turns across randomized seeds. The full tutorial was executed on one
+GPU at a time: AMD Instinct MI300X, AMD Radeon R9700, and an AMD Ryzen AI Max
+(Strix Halo) APU, using the same code and container. The bundled demo
+checkpoint was selected on MI210 and is not tied to one GPU.
 
 ## Related
 

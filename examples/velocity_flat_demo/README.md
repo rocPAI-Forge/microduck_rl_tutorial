@@ -11,8 +11,7 @@ This pre-trained asset is the stable baseline used by
 - Yaw result at `±0.8 rad/s`: both mean responses have the requested sign and all
   seed-123 trials survived; cross-seed right-turn accuracy remains weaker than
   linear tracking and is documented rather than hidden
-- Hardware note: training performance was measured on AMD Instinct MI210, but the
-  checkpoint is not tied to MI210
+- Hardware note: the checkpoint was produced on AMD Instinct MI210. This tutorial loads it on the single GPUs listed in the notebook prerequisites. It is not tied to MI210.
 
 See `cardinal_eval.json` for the complete measurements and `run_summary.json` for
 the staged fine-tuning recipe.
