@@ -11,7 +11,12 @@ mkdir -p "$(dirname "$LOG")"
 
 echo "=== microduck-train (quiet) ==="
 echo "Full log: ${LOG}"
-echo "Status: 单行每 ${LAB_LOG_EVERY} iter 刷新（export LAB_LOG_EVERY=10 可调）"
+# Status line follows LAB_LANG (default en); the zh notebook exports LAB_LANG=zh.
+if [[ "${LAB_LANG:-en}" == "zh" ]]; then
+  echo "Status: 单行每 ${LAB_LOG_EVERY} iter 刷新（export LAB_LOG_EVERY=10 可调）"
+else
+  echo "Status: one status line refreshed every ${LAB_LOG_EVERY} iter (export LAB_LOG_EVERY=10 to adjust)"
+fi
 echo ""
 
 cd "${MICRODUCK_ROOT}"

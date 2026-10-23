@@ -28,7 +28,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 1,
             "why": "2 个 iteration 不可能学会走路。这一步只确认整条链路不报错，同时让你第一次看到完整训练日志的字段（Learning iteration、Mean reward、Mean episode length 等）。",
-            "ref": "01 · F 冒烟测试",
+            "ref": "F 节 冒烟测试",
         },
         {
             "topic": "训练参数",
@@ -41,7 +41,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 2,
             "why": "`num_envs` 是同时运行的独立 MicroDuck 仿真数量，决定每轮能收集多少数据；`max_iterations` 是“采样 24 步 → 更新网络”这个循环重复的次数。",
-            "ref": "01 · 阶段一参数表 / D3",
+            "ref": "阶段一参数表 / D3 节",
         },
         {
             "topic": "Eval 回放",
@@ -53,8 +53,8 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
                 "10 秒",
             ],
             "answer": 3,
-            "why": "50 Hz 表示每步 0.02 秒，所以 500 × 0.02 s = 10 秒。注意这是整段视频长度，不是每个 episode 的存活时间——机器人可能在这 10 秒里多次摔倒并 reset。",
-            "ref": "01 · 阶段一 Eval",
+            "why": "50 Hz 表示每步 0.02 秒，所以 500 × 0.02 s = 10 秒。注意这是整段视频长度，不是每个 episode 的存活时间，机器人可能在这 10 秒里多次摔倒并 reset。",
+            "ref": "阶段一 Eval",
         },
         {
             "topic": "参考 Demo",
@@ -67,7 +67,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 0,
             "why": "它用 2048 个并行环境定向微调，并用六方向固定命令自动评测选出，用来和你自己的 300-iter 结果做对比。课堂上重训要花很久，所以直接提供。模型本身不绑定 MI210。",
-            "ref": "01 · 阶段二",
+            "ref": "阶段二",
         },
         {
             "topic": "键盘遥操作",
@@ -80,7 +80,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 2,
             "why": "键盘设置的是机体坐标系下的期望速度，不是关节角。闭环是：速度命令 → 61 维观测 → PPO Actor → 14 维关节目标 → BAM 执行器 → MuJoCo。",
-            "ref": "02 · 第 2 节 键盘控制",
+            "ref": "Teleop 第 2 节 键盘控制",
         },
     ],
     "en": [
@@ -95,7 +95,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 1,
             "why": "Two iterations cannot learn to walk. This step only confirms nothing errors out, and it shows you the full training log fields for the first time (Learning iteration, Mean reward, Mean episode length).",
-            "ref": "01 · F smoke test",
+            "ref": "Section F smoke test",
         },
         {
             "topic": "Training parameters",
@@ -108,7 +108,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 2,
             "why": "`num_envs` is how many independent MicroDuck simulations run at once, which sets how much data each round collects. `max_iterations` is how many times the \"sample 24 steps, then update\" loop repeats.",
-            "ref": "01 · phase 1 parameter table / D3",
+            "ref": "Phase 1 parameter table / Section D3",
         },
         {
             "topic": "Eval replay",
@@ -121,7 +121,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 3,
             "why": "50 Hz means 0.02 s per step, so 500 x 0.02 s = 10 seconds. Note this is the clip length, not each episode's lifetime; the robot may fall and reset several times within it.",
-            "ref": "01 · phase 1 eval",
+            "ref": "Phase 1 eval",
         },
         {
             "topic": "Reference demo",
@@ -134,7 +134,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 0,
             "why": "It was fine-tuned with 2048 parallel envs and selected by an automatic six-direction fixed-command gate, so you can compare it against your own 300-iter result. Retraining it in class would take far too long. The checkpoint is not MI210-specific.",
-            "ref": "01 · phase 2",
+            "ref": "Phase 2",
         },
         {
             "topic": "Keyboard teleop",
@@ -147,7 +147,7 @@ QUESTIONS: dict[str, list[dict[str, Any]]] = {
             ],
             "answer": 2,
             "why": "The keyboard sets a desired velocity in the robot body frame, not joint angles. The loop is velocity command, 61-D observation, PPO actor, 14-D joint targets, BAM actuator, MuJoCo.",
-            "ref": "02 · section 2 keyboard control",
+            "ref": "Teleop section 2 keyboard control",
         },
     ],
 }
